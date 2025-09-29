@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestión de Imágenes - ORIOLA Admin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar Admin -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/admin/dashboard">
+                <i class="bi bi-gear me-2"></i>ORIOLA Admin
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/admin/dashboard">Dashboard</a>
+                <a class="nav-link" href="/admin/products">Productos</a>
+                <a class="nav-link" href="/admin/logout">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="container mt-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/admin/products">Productos</a></li>
+                <li class="breadcrumb-item active">Imágenes del Producto</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">
+                            <i class="bi bi-images me-2"></i>Gestión de Imágenes
+                        </h4>
+                        <a th:href="@{/admin/products/edit/{id}(id=${product.pId})}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i>Volver al Producto
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <!-- Información del Producto -->
+                        <div class="row mb-4">
+                            <div class="col-md-8">
+                                <h5 th:text="${product.name}">Nombre del Producto</h5>
+                                <p class="text-muted" th:text="${product.descripcion}">Descripción del producto</p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="badge bg-primary" th:text="${product.getCategoriasComoTexto()}">Categorías</span>
+                                <span class="badge bg-success ms-2" th:text="${product.getTemporadasComoTexto()}">Temporadas</span>
+                            </div>
+                        </div>
+
+                        <!-- Especificaciones de Imágenes -->
+                        <div class="specifications-section mb-4">
+                            <h6 class="mb-3">
+                                <i class="bi bi-rulers me-2"></i>Especificaciones de Imágenes
+                            </h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="specification-card p-3 mb-3" style="background-color: #f8f9fa; border-radius: 8px; border-left: 4px solid #28a745;">
+                                        <h6 class="text-success mb-2">
+                                            <i class="bi bi-check-circle me-2"></i>Especificaciones Óptimas
+                                        </h6>
+                                        <ul class="list-unstyled mb-0 small">
+                                            <li><strong>Proporción:</strong> 2:3 (vertical) - Ideal para prendas</li>
+                                            <li><strong>Ancho:</strong> 2000 - 2500 px</li>
+                                            <li><strong>Alto:</strong> 3000 - 3500 px</li>
+                                            <li><strong>Ejemplo:</strong> 2400 x 3600 px</li>
+                                            <li><strong>Tamaño:</strong> Hasta 5 MB</li>
+                                            <li><strong>Formato:</strong> JPG o PNG</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="specification-card p-3 mb-3" style="background-color: #e8f5e8; border-radius: 8px; border-left: 4px solid #17a2b8;">
+                                        <h6 class="text-info mb-2">
+                                            <i class="bi bi-lightbulb me-2"></i>Recomendaciones
+                                        </h6>
+                                        <ul class="list-unstyled mb-0 small">
+                                            <li><strong>Composición:</strong> Modelo centrado y esbelto</li>
+                                            <li><strong>Fondo:</strong> Neutro, texturizado o minimalista</li>
+                                            <li><strong>Iluminación:</strong> Natural, uniforme y suave</li>
+                                            <li><strong>Calidad:</strong> Enfoque nítido, sin desenfoque</li>
+                                            <li><strong>Colores:</strong> Fieles y saturados al producto</li>
+                                            <li><strong>Estilo:</strong> Apariencia "alta y esbelta"</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Ejemplos de Imágenes Correctas -->
+                            <div class="mt-4">
+                                <h6 class="text-center mb-4">
+                                    <i class="bi bi-image me-2"></i>Ejemplos de Imágenes Correctas
+                                </h6>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="example-card text-center p-3 position-relative" style="border: 2px dashed #dee2e6; border-radius: 8px;">
+                                            <!-- Icono de correcto -->
+                                            <div class="position-absolute" style="top: 10px; right: 10px; z-index: 10;">
+                                                <i class="bi bi-check-circle-fill text-success" style="font-size: 2rem;"></i>
+                                            </div>
+                                            <div class="example-image" style="width: 200px; height: 300px; background: linear-gradient(45deg, #f8f9fa, #e9ecef); margin: 0 auto; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #6c757d;">
+                                                <div>
+                                                    <i class="bi bi-image" style="font-size: 2rem;"></i>
+                                                    <br><small>2:3 Vertical</small>
+                                                </div>
+                                            </div>
+                                            <p class="mt-2 mb-0"><strong>Correcto</strong></p>
+                                            <small class="text-muted">2400 x 3600 px</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="example-card text-center p-3 position-relative" style="border: 2px dashed #dc3545; border-radius: 8px;">
+                                            <!-- Icono de incorrecto -->
+                                            <div class="position-absolute" style="top: 10px; right: 10px; z-index: 10;">
+                                                <i class="bi bi-x-circle-fill text-danger" style="font-size: 2rem;"></i>
+                                            </div>
+                                            <div class="example-image" style="width: 300px; height: 200px; background: linear-gradient(45deg, #f8d7da, #f5c6cb); margin: 0 auto; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #721c24;">
+                                                <div>
+                                                    <i class="bi bi-image" style="font-size: 2rem;"></i>
+                                                    <br><small>3:2 Horizontal</small>
+                                                </div>
+                                            </div>
+                                            <p class="mt-2 mb-0 text-danger"><strong>Incorrecto</strong></p>
+                                            <small class="text-muted">Imagen horizontal</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="example-card text-center p-3 position-relative" style="border: 2px dashed #ffc107; border-radius: 8px;">
+                                            <!-- Icono de incorrecto -->
+                                            <div class="position-absolute" style="top: 10px; right: 10px; z-index: 10;">
+                                                <i class="bi bi-x-circle-fill text-danger" style="font-size: 2rem;"></i>
+                                            </div>
+                                            <div class="example-image" style="width: 150px; height: 300px; background: linear-gradient(45deg, #fff3cd, #ffeaa7); margin: 0 auto; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #856404;">
+                                                <div>
+                                                    <i class="bi bi-image" style="font-size: 2rem;"></i>
+                                                    <br><small>Muy estrecha</small>
+                                                </div>
+                                            </div>
+                                            <p class="mt-2 mb-0 text-warning"><strong>Muy pequeña</strong></p>
+                                            <small class="text-muted">Menos de 2000px</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Información Técnica Detallada -->
+                            <div class="mt-4">
+                                <div class="alert alert-info" style="border-left: 4px solid #17a2b8;">
+                                    <h6 class="alert-heading mb-2">
+                                        <i class="bi bi-info-circle me-2"></i>Información Técnica Detallada
+                                    </h6>
+                                    <p class="mb-2">
+                                        <strong>Rango de Resolución Recomendado:</strong><br>
+                                        • <strong>Ancho:</strong> 2000-2500 píxeles<br>
+                                        • <strong>Alto:</strong> 3000-3500 píxeles<br>
+                                        • <strong>Relación de Aspecto:</strong> 2:3 (predominante) o 3:4 (alternativa)
+                                    </p>
+                                    <p class="mb-0">
+                                        <strong>Ejemplos Concretos:</strong><br>
+                                        • 2000 x 3000 px (2:3 perfecto)<br>
+                                        • 2400 x 3600 px (2:3 ideal)<br>
+                                        • 2500 x 3500 px (2:3 máximo)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Subida de Imágenes -->
+                        <div class="upload-section mb-4">
+                            <h6 class="mb-3">
+                                <i class="bi bi-cloud-upload me-2"></i>Subir Imágenes (Máximo 5)
+                            </h6>
+                            
+                            <!-- Dropzone para subida múltiple -->
+                            <div class="upload-dropzone" id="uploadDropzone">
+                                <div class="text-center py-5">
+                                    <i class="bi bi-cloud-upload" style="font-size: 3rem; color: var(--primary-color);"></i>
+                                    <h5 class="mt-3">Arrastra y suelta las imágenes aquí</h5>
+                                    <p class="text-muted">o haz clic para seleccionar archivos (máximo 5 imágenes por producto)</p>
+                                    <input type="file" id="fileInput" multiple accept="image/*" style="display: none;" max="5">
+                                    <button class="btn btn-oriola" onclick="document.getElementById('fileInput').click()">
+                                        <i class="bi bi-plus-circle me-2"></i>SELECCIONAR IMÁGENES
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Barra de progreso -->
+                            <div class="progress mt-3" id="uploadProgress" style="display: none;">
+                                <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                            </div>
+
+                            <!-- Mensajes de estado -->
+                            <div id="uploadMessages" class="mt-3"></div>
+
+                            <!-- Botón para asociar imágenes -->
+                            <div class="text-center mt-4" id="associateButton" style="display: none;">
+                                <button class="btn btn-success btn-lg" onclick="associateImages()">
+                                    <i class="bi bi-check-circle me-2"></i>Asociar Imágenes al Producto
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Galería de Imágenes Existentes -->
+                        <div class="images-gallery">
+                            <h6 class="mb-3">
+                                <i class="bi bi-images me-2"></i>Imágenes del Producto
+                                <span class="badge bg-secondary ms-2" th:text="${#lists.size(product.images)}">0</span>
+                            </h6>
+
+                            <div class="row" id="imagesGrid">
+                                <!-- Las imágenes se cargarán aquí dinámicamente -->
+                                <div th:each="image : ${product.images}" class="col-md-3 col-sm-6 mb-3">
+                                    <div class="image-card" th:data-image-id="${image.id}">
+                                        <div class="image-container" style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa; border-radius: 10px;">
+                                            <img th:src="${image.getImageUrl()}" class="img-fluid" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                                            <div class="image-overlay">
+                                                <div class="image-actions">
+                                                    <button class="btn btn-sm btn-primary" th:onclick="'setPrimary(' + ${image.id} + ')'" th:if="${!image.isPrimary}">
+                                                        <i class="bi bi-star"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-success" th:if="${image.isPrimary}" disabled>
+                                                        <i class="bi bi-star-fill"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger" th:onclick="'deleteImage(' + ${image.id} + ')'">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="image-info mt-2">
+                                            <small class="text-muted" th:text="${image.fileName}">imagen.webp</small>
+                                            <br>
+                                            <small class="text-muted" th:text="${image.fileSize}">2.5 MB</small>
+                                            <span th:if="${image.isPrimary}" class="badge bg-warning ms-2">Principal</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Mensaje si no hay imágenes -->
+                                <div th:if="${#lists.isEmpty(product.images)}" class="col-12 text-center py-5">
+                                    <i class="bi bi-image" style="font-size: 4rem; color: #ccc;"></i>
+                                    <h5 class="text-muted mt-3">No hay imágenes</h5>
+                                    <p class="text-muted">Sube la primera imagen para este producto</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Obtener el productId de la URL
+        const urlParts = window.location.pathname.split('/');
+        const productId = parseInt(urlParts[urlParts.length - 2]);
+        
+        console.log('URL:', window.location.pathname);
+        console.log('Product ID from URL:', productId);
+        console.log('Product ID from Thymeleaf:', /*[[${product.pId}]]*/ 'null');
+        
+        let selectedFiles = [];
+        let uploadedImages = [];
+
+        // Configurar dropzone
+        const dropzone = document.getElementById('uploadDropzone');
+        const fileInput = document.getElementById('fileInput');
+        const uploadMessages = document.getElementById('uploadMessages');
+        const associateButton = document.getElementById('associateButton');
+
+        // Validar archivos
+        function validateFiles(files) {
+            const maxFiles = 5;
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+
+            if (files.length > maxFiles) {
+                showMessage('error', `Máximo ${maxFiles} imágenes permitidas`);
+                return false;
+            }
+
+            for (let file of files) {
+                if (!allowedTypes.includes(file.type)) {
+                    showMessage('error', `Tipo de archivo no válido: ${file.name}`);
+                    return false;
+                }
+                if (file.size > maxSize) {
+                    showMessage('error', `Archivo muy grande: ${file.name} (máximo 5MB)`);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // Mostrar mensajes
+        function showMessage(type, text) {
+            const alertClass = type === 'error' ? 'alert-danger' : 'alert-success';
+            uploadMessages.innerHTML = `<div class="alert ${alertClass}">${text}</div>`;
+        }
+
+        // Manejar selección de archivos
+        fileInput.addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            if (validateFiles(files)) {
+                // Obtener número de imágenes existentes del producto
+                const existingImages = document.querySelectorAll('.image-card').length;
+                const maxTotalImages = 5;
+                
+                // Calcular cuántas imágenes se pueden agregar
+                const availableSlots = maxTotalImages - existingImages;
+                
+                if (files.length > availableSlots) {
+                    showMessage('error', `Solo puedes agregar ${availableSlots} imagen(es) más. El producto ya tiene ${existingImages} imágenes de un máximo de ${maxTotalImages}.`);
+                    return;
+                }
+                
+                // Agregar archivos a la lista existente en lugar de reemplazar
+                selectedFiles = selectedFiles.concat(files);
+                
+                // Verificar que no exceda el límite total
+                if (selectedFiles.length > availableSlots) {
+                    selectedFiles = selectedFiles.slice(0, availableSlots);
+                    showMessage('warning', `Solo se pueden agregar ${availableSlots} imagen(es) más. Se tomaron las primeras ${availableSlots}.`);
+                }
+                
+                displaySelectedFiles();
+                associateButton.style.display = 'block';
+                
+                // Limpiar el input para permitir seleccionar más archivos
+                fileInput.value = '';
+            }
+        });
+
+        // Mostrar archivos seleccionados
+        function displaySelectedFiles() {
+            const preview = document.createElement('div');
+            preview.className = 'row mt-3';
+            
+            // Limpiar contenido anterior
+            uploadMessages.innerHTML = '';
+            
+            if (selectedFiles.length === 0) {
+                uploadMessages.innerHTML = '<div class="text-center text-muted">No hay archivos seleccionados</div>';
+                return;
+            }
+            
+            selectedFiles.forEach((file, index) => {
+                const col = document.createElement('div');
+                col.className = 'col-md-3 col-sm-6 mb-3';
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    col.innerHTML = `
+                        <div class="card">
+                            <div class="preview-image-container" style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa;">
+                                <img src="${e.target.result}" class="preview-image" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                            </div>
+                            <div class="card-body p-2">
+                                <small class="text-muted">${file.name}</small>
+                                <br>
+                                <small class="text-muted">${(file.size / 1024 / 1024).toFixed(2)} MB</small>
+                                ${index === 0 ? '<span class="badge bg-warning ms-1">Principal</span>' : ''}
+                                <button class="btn btn-sm btn-outline-danger mt-1" onclick="removeFile(${index})">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                };
+                reader.readAsDataURL(file);
+                preview.appendChild(col);
+            });
+            
+            // Agregar botón para limpiar selección
+            const clearButton = document.createElement('div');
+            clearButton.className = 'col-12 text-center mt-3';
+            clearButton.innerHTML = `
+                <button class="btn btn-outline-secondary" onclick="clearSelection()">
+                    <i class="bi bi-x-circle me-1"></i>Limpiar Selección
+                </button>
+            `;
+            preview.appendChild(clearButton);
+            
+            uploadMessages.appendChild(preview);
+        }
+        
+        // Función para remover un archivo específico
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            displaySelectedFiles();
+            if (selectedFiles.length === 0) {
+                associateButton.style.display = 'none';
+            }
+        }
+        
+        // Función para limpiar toda la selección
+        function clearSelection() {
+            selectedFiles = [];
+            displaySelectedFiles();
+            associateButton.style.display = 'none';
+        }
+
+        // Asociar imágenes al producto
+        function associateImages() {
+            if (selectedFiles.length === 0) {
+                showMessage('error', 'No hay archivos seleccionados');
+                return;
+            }
+            
+            if (!productId || productId === 0) {
+                showMessage('error', 'ID de producto no válido. Recarga la página e intenta nuevamente.');
+                return;
+            }
+
+            const formData = new FormData();
+            selectedFiles.forEach((file, index) => {
+                formData.append('images', file);
+                if (index === 0) {
+                    formData.append('isPrimary', 'true');
+                }
+            });
+
+            // Mostrar progreso
+            const progressBar = document.getElementById('uploadProgress');
+            progressBar.style.display = 'block';
+
+            fetch(`/admin/products/${productId}/images/upload`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showMessage('success', 'Imágenes asociadas correctamente al producto');
+                    // Limpiar la selección
+                    selectedFiles = [];
+                    displaySelectedFiles();
+                    associateButton.style.display = 'none';
+                    // Actualizar la interfaz de imágenes
+                    setTimeout(() => {
+                        updateImageInterface();
+                    }, 1000);
+                } else {
+                    showMessage('error', data.message || 'Error al asociar imágenes');
+                }
+            })
+            .catch(error => {
+                showMessage('error', 'Error al subir imágenes: ' + error.message);
+            })
+            .finally(() => {
+                progressBar.style.display = 'none';
+            });
+        }
+
+        // Drag and drop
+        dropzone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            dropzone.classList.add('drag-over');
+        });
+
+        dropzone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            dropzone.classList.remove('drag-over');
+        });
+
+        dropzone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            dropzone.classList.remove('drag-over');
+            
+            const files = Array.from(e.dataTransfer.files);
+            if (validateFiles(files)) {
+                selectedFiles = files;
+                displaySelectedFiles();
+                associateButton.style.display = 'block';
+            }
+        });
+
+        // Funciones para gestionar imágenes existentes
+        function setPrimary(imageId) {
+            // Deshabilitar todos los botones de estrella temporalmente
+            const allStarButtons = document.querySelectorAll('.image-actions button');
+            allStarButtons.forEach(btn => btn.disabled = true);
+            
+            fetch(`/admin/image/${imageId}/set-primary`, {
+                method: 'PUT'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Actualizar la interfaz sin recargar la página
+                    updateImageInterface();
+                    showMessage('success', 'Imagen principal actualizada correctamente');
+                } else {
+                    showMessage('error', data.message || 'Error al establecer imagen principal');
+                    // Rehabilitar botones en caso de error
+                    allStarButtons.forEach(btn => btn.disabled = false);
+                }
+            })
+            .catch(error => {
+                showMessage('error', 'Error al establecer imagen principal: ' + error.message);
+                // Rehabilitar botones en caso de error
+                allStarButtons.forEach(btn => btn.disabled = false);
+            });
+        }
+        
+        // Función para actualizar la interfaz de imágenes
+        function updateImageInterface() {
+            // Recargar solo la sección de imágenes
+            fetch(window.location.href)
+            .then(response => response.text())
+            .then(html => {
+                // Crear un parser temporal
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Obtener la nueva galería de imágenes
+                const newImagesGrid = doc.querySelector('#imagesGrid');
+                if (newImagesGrid) {
+                    // Reemplazar el contenido de la galería
+                    document.getElementById('imagesGrid').innerHTML = newImagesGrid.innerHTML;
+                }
+            })
+            .catch(error => {
+                console.error('Error al actualizar la interfaz:', error);
+                // Si falla, recargar la página completa
+                location.reload();
+            });
+        }
+
+        function deleteImage(imageId) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta imagen?')) {
+                fetch(`/admin/image/${imageId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                    showMessage('success', 'Imagen eliminada correctamente');
+                    // Actualizar la interfaz sin recargar la página
+                    setTimeout(() => {
+                        updateImageInterface();
+                    }, 500);
+                    } else {
+                        showMessage('error', data.message || 'Error al eliminar imagen');
+                    }
+                })
+                .catch(error => {
+                    showMessage('error', 'Error al eliminar imagen: ' + error.message);
+                });
+            }
+        }
+    </script>
+
+    <style>
+        .upload-dropzone {
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-dropzone:hover,
+        .upload-dropzone.drag-over {
+            border-color: var(--primary-color);
+            background-color: rgba(220, 53, 69, 0.05);
+        }
+        
+        .image-card {
+            position: relative;
+        }
+        
+        .image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .image-card:hover .image-overlay {
+            opacity: 1;
+        }
+        
+        .image-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .specification-card {
+            transition: transform 0.2s ease;
+        }
+        
+        .specification-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .specifications-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .preview-image-container {
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .preview-image {
+            border-radius: 8px;
+        }
+        
+        .image-container img {
+            transition: transform 0.3s ease;
+        }
+        
+        .image-container:hover img {
+            transform: scale(1.05);
+        }
+    </style>
+</body>
+</html>
